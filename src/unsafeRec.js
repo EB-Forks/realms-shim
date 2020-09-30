@@ -58,6 +58,9 @@ export function createNewUnsafeGlobalForBrowser() {
 
   // TODO: can we remove and garbage-collect the iframes?
 
+  // ExE Boss: That will be possible by using the upcoming
+  // `FinalizationRegistry` and `WeakRef` APIs.
+
   return unsafeGlobal;
 }
 

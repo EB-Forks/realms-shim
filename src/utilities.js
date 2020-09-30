@@ -29,8 +29,8 @@ export function assert(condition, message) {
 
 /**
  * safeStringifyFunction()
- * Remove code modifications introduced by ems and nyx in
- * test mode which intefere with Function.toString().
+ * Remove code modifications introduced by esm and nyc
+ * in test mode, which interfere with Function.toString().
  */
 export function safeStringifyFunction(fn) {
   let src = `'use strict'; (${fn})`;
@@ -42,7 +42,7 @@ export function safeStringifyFunction(fn) {
   src = src.replace(/\(0,\s*_[0-9a-fA-F]{3}\u200D\.e\)/g, '(0, eval)');
 
   // Restore globals such as Reflect which are modified by esm module.
-  // Reflect => <runtime>.e.Reflect
+  // Reflect => <runtime>.g.Reflect
   src = src.replace(/_[0-9a-fA-F]{3}\u200D\.g\./g, '');
 
   // Remove code coverage which is injected by nyc module.

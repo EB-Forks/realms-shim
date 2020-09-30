@@ -58,14 +58,12 @@ function buildCallAndWrapError() {
         // raised in the primal realm need to be converted to the current
         // realm.
 
-        // `${err.name}` will cause string coercion of 'err.name'.
+        // `${err.name}` will cause string coercion of 'err.name' using
+        // the `ToString` abstract operation.
         // If err.name is an object (probably a String of another Realm),
         // the coercion uses err.name.toString(), which is under the control
         // of the other realm. If err.name were a primitive (e.g. a number),
-        // it would use Number.toString(err.name), using the child's version
-        // of Number (which the child could modify to capture its argument for
-        // later use), however primitives don't have properties like .prototype
-        // so they aren't useful for an attack.
+        // it would use the internal Number::toString(err.name) abstract operation.
         eName = `${err.name}`;
         eMessage = `${err.message}`;
         eStack = `${err.stack || eMessage}`;

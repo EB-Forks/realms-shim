@@ -81,7 +81,7 @@ function createRealmRec(unsafeRec, transforms, sloppyGlobals) {
 }
 
 /**
- * A root realm uses a fresh set of new intrinics. Here we first create
+ * A root realm uses a fresh set of new intrinsics. Here we first create
  * a new unsafe record, which inherits the shims. Then we proceed with
  * the creation of the realm record, and we apply the shims.
  */

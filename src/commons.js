@@ -10,8 +10,13 @@ export const {
   assign,
   create,
   freeze,
-  defineProperties, // Object.defineProperty is allowed to fail
-  // silentlty, use Object.defineProperties instead.
+  // Object.defineProperty is allowed to fail silently,
+  // use Object.defineProperties instead.
+
+  // ExE Boss: That doesn't seem to be the case, at least according
+  // to the spec, as both `Object.defineProperty` and `Object.defineProperties`
+  // call the `DefinePropertyOrThrow` abstract operation.
+  defineProperties,
   getOwnPropertyDescriptor,
   getOwnPropertyDescriptors,
   getOwnPropertyNames,
@@ -21,8 +26,8 @@ export const {
 
 export const {
   apply,
-  ownKeys // Reflect.ownKeys includes Symbols and unenumerables,
-  // unlike Object.keys()
+  // Reflect.ownKeys includes Symbols and unenumerables, unlike Object.keys()
+  ownKeys
 } = Reflect;
 
 /**

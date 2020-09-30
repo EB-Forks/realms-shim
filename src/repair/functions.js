@@ -11,9 +11,9 @@
  * These are all reachable via syntax, so it isn't sufficient to just
  * replace global properties with safe versions. Our main goal is to prevent
  * access to the Function constructor through these starting points.
-
+ *
  * After this block is done, the originals must no longer be reachable, unless
- * a copy has been made, and funtions can only be created by syntax (using eval)
+ * a copy has been made, and functions can only be created by syntax (using eval)
  * or by invoking a previously saved reference to the originals.
  */
 
@@ -33,7 +33,6 @@ export function repairFunctions() {
   function repairFunction(name, declaration) {
     let FunctionInstance;
     try {
-      // eslint-disable-next-line no-new-func
       FunctionInstance = (0, eval)(declaration);
     } catch (e) {
       if (e instanceof SyntaxError) {
@@ -53,19 +52,12 @@ export function repairFunctions() {
     };
     defineProperties(TamedFunction, { name: { value: name } });
 
-    // (new Error()).constructors does not inherit from Function, because Error
-    // was defined before ES6 classes. So we don't need to repair it too.
-
-    // (Error()).constructor inherit from Function, which gets a tamed
-    // constructor here.
-
-    // todo: in an ES6 class that does not inherit from anything, what does its
-    // constructor inherit from? We worry that it inherits from Function, in
-    // which case instances could give access to unsafeFunction. markm says
-    // we're fine: the constructor inherits from Object.prototype
+    // An ES6 class without an extends clause or with `extends null`
+    // has its constructor's [[Prototype]] initialized to %Function.prototype%,
+    // same as any ordinary function.
 
     // This line replaces the original constructor in the prototype chain
-    // with the tamed one. No copy of the original is peserved.
+    // with the tamed one. No copy of the original is preserved.
     defineProperties(FunctionPrototype, {
       constructor: { value: TamedFunction }
     });
@@ -73,6 +65,7 @@ export function repairFunctions() {
     // This line sets the tamed constructor's prototype data property to
     // the original one.
     defineProperties(TamedFunction, {
+      // FIXME: This should be `writable: false` to match the native function constructor.
       prototype: { value: FunctionPrototype }
     });
 

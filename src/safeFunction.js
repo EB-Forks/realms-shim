@@ -14,7 +14,8 @@ function buildSafeFunction(unsafeRec, safeFunctionOperation) {
 
   defineProperties(safeFunction, {
     // Ensure that any function created in any compartment in a root realm is an
-    // instance of Function in any compartment of the same root ralm.
+    // instance of Function in any compartment of the same root realm.
+    // FIXME: This should be `writable: false` to match the native function constructor.
     prototype: { value: unsafeFunction.prototype },
 
     // Provide a custom output without overwriting the

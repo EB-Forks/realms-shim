@@ -10,11 +10,11 @@ import {
 // between the names being optimized and the ones added by endowments
 
 /**
- * Simplified validation of indentifier names: may only contain alphanumeric
+ * Simplified validation of identifier names: may only contain alphanumeric
  * characters (or "$" or "_"), and may not start with a digit. This is safe
  * and does not reduces the compatibility of the shim. The motivation for
  * this limitation was to decrease the complexity of the implementation,
- * and to maintain a resonable level of performance.
+ * and to maintain a reasonable level of performance.
  * Note: \w is equivalent [a-zA-Z_0-9]
  * See 11.6.1 Identifier Names
  */
@@ -119,7 +119,6 @@ export function getOptimizableGlobals(globalObject, localObject = {}) {
 
     const desc = getOwnPropertyDescriptor(globalObject, name);
     return (
-      //
       // The getters will not have .writable, don't let the falsyness of
       // 'undefined' trick us: test with === false, not ! . However descriptors
       // inherit from the (potentially poisoned) global object, so we might see

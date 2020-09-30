@@ -19,9 +19,9 @@ import { applyTransformsString } from './transforms';
 import { rejectDangerousSourcesTransform } from './sourceParser';
 
 function buildOptimizer(constants) {
-  // No need to build an oprimizer when there are no constants.
+  // No need to build an optimizer when there are no constants.
   if (constants.length === 0) return '';
-  // Use 'this' to avoid going through the scope proxy, which is unecessary
+  // Use 'this' to avoid going through the scope proxy, which is unnecessary
   // since the optimizer only needs references to the safe global.
   return `const {${arrayJoin(constants, ',')}} = this;`;
 }
@@ -218,7 +218,8 @@ export function createFunctionEvaluator(unsafeRec, safeEvalOperation) {
       // todo: shim integrity threat if they change SyntaxError
     }
 
-    // todo: check to make sure this .length is safe. markm says safe.
+    // the `length` property of strings (both primitives and wrapper objects)
+    // is an own non-writable, non-configurable property.
     if (functionParams.length > 0) {
       // If the formal parameters include an unbalanced block comment, the
       // function must be rejected. Since JavaScript does not allow nested
